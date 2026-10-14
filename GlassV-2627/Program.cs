@@ -1,5 +1,6 @@
 using GlassV_2627.Data;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 namespace GlassV_2627;
 
@@ -30,7 +31,9 @@ public class Program
         }
         
         app.UseRouting();
-
+       
+        app.MapScalarApiReference();
+        
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
