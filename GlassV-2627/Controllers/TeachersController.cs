@@ -2,6 +2,7 @@
 using GlassV_2627.DTOs.StudentDTOs;
 using GlassV_2627.DTOs.TeacherDTOs;
 using GlassV_2627.Models;
+using GlassV_2627.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GlassV_2627.Controllers;
@@ -10,33 +11,29 @@ namespace GlassV_2627.Controllers;
 [Route("api/[controller]/[action]")]
 public class TeachersController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly ITeacherService _service;
     
-    public TeachersController(ApplicationDbContext context)
+    public TeachersController(ITeacherService service)
     {
-        _context = context;
+        _service = service;
     }
 
     [HttpGet]
     public IActionResult GetAllTeachers()
     {
-        List<TeacherResponseDTO> teachers = _context.Teachers.Select(x => new TeacherResponseDTO()
-        {
-            Name = x.Name,
-            Subject = x.Subject
-        }).ToList();
-        
+        var teachers = _service.GetAllTeachers();
         return Ok(teachers);
     }
 
     [HttpGet]
     public IActionResult GetOneTeacher([FromQuery] int id)
     {
-        TeacherResponseDTO teacher = _context.Teachers.Where(x => x.Id == id).Select(x => new TeacherResponseDTO()
+        var teacher = _service.GetOneTeacher(id);
+
+        if (teacher == null)
         {
-            Name = x.Name,
-            Subject = x.Subject
-        }).First();
+            return NotFound();
+        }
         
         return Ok(teacher);
     }
@@ -44,45 +41,52 @@ public class TeachersController : ControllerBase
     [HttpPost]
     public IActionResult Create([FromBody] TeacherEditDTO teacher)
     {
-        Teacher entity = new Teacher();
+        var entity = _service.Create(teacher);
+
+        if (entity == null)
+        {
+            return BadRequest();
+        }
         
-        entity.Name = teacher.Name;
-        entity.Subject = teacher.Subject;
-        
-        _context.Teachers.Add(entity);
-        _context.SaveChanges();
-        return Ok();
+        return Created();
     }
 
     [HttpPut]
     public IActionResult Update([FromBody] TeacherEditDTO teacher)
     {
-        Teacher entity = _context.Teachers.Where(x => x.Id == teacher.Id).First();
+        var entity = _service.Update(teacher);
         
-        entity.Name = teacher.Name;
-        entity.Subject = teacher.Subject;
-
-        _context.SaveChanges();
+        if (!entity)
+        {
+            return BadRequest();
+        }
+        
         return Ok();
     }
 
     [HttpDelete]
     public IActionResult Delete([FromQuery] int id)
     {
-        Teacher teacher = _context.Teachers.Where(x => x.Id == id).First();
+       var entity = _service.Delete(id);
 
-        _context.Teachers.Remove(teacher);
-        _context.SaveChanges();
+       if (!entity)
+       {
+           return NotFound();
+       }
+       
         return Ok();
     }
 
     [HttpPatch]
-    public IActionResult Patch([FromBody] TeacherUpdateSubjectDTO teacher)
+    public IActionResult UpdateSubject([FromBody] TeacherUpdateSubjectDTO teacher)
     {
-        Teacher entity = _context.Teachers.Where(x => x.Id == teacher.TeacherId).First();
-
-        entity.Subject = teacher.NewSubject;
-        _context.SaveChanges();
+        var entity = _service.UpdateSubject(teacher);
+        
+        if (!entity)
+        {
+            return BadRequest();
+        }
+        
         return Ok();
     }
 }

@@ -25,7 +25,7 @@ public class Program
         );
 
         builder.Services.AddScoped<IStudentService, StudentServive>();
-        //builder.Services.AddScoped<ITeacherService, TeacherService>();
+        builder.Services.AddScoped<ITeacherService, TeacherService>();
 
         var app = builder.Build();
 
