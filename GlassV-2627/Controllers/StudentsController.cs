@@ -1,5 +1,6 @@
 ﻿using GlassV_2627.Data;
 using GlassV_2627.DTOs.StudentDTOs;
+using GlassV_2627.Filters;
 using GlassV_2627.Models;
 using GlassV_2627.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,10 @@ public class StudentsController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
-    public IActionResult GetAll()
+    [HttpPost]
+    public IActionResult GetAll([FromBody] StudentFilterModel filters)
     {
-        var result = _service.GetAll();
+        var result = _service.GetAll(filters);
         
         return Ok(result);
     }
