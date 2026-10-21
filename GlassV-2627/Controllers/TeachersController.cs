@@ -1,6 +1,7 @@
 ﻿using GlassV_2627.Data;
 using GlassV_2627.DTOs.StudentDTOs;
 using GlassV_2627.DTOs.TeacherDTOs;
+using GlassV_2627.Filters;
 using GlassV_2627.Models;
 using GlassV_2627.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -18,10 +19,10 @@ public class TeachersController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
-    public IActionResult GetAllTeachers()
+    [HttpPost]
+    public IActionResult GetAllTeachers([FromBody] TeacherFilterModel filters)
     {
-        var teachers = _service.GetAllTeachers();
+        var teachers = _service.GetAllTeachers(filters);
         return Ok(teachers);
     }
 

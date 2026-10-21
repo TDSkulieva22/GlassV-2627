@@ -1,5 +1,6 @@
 ﻿using GlassV_2627.Data;
 using GlassV_2627.DTOs.TeacherDTOs;
+using GlassV_2627.Filters;
 using GlassV_2627.Models;
 using GlassV_2627.Services.Interfaces;
 
@@ -14,15 +15,29 @@ public class TeacherService : ITeacherService
         _context = context;
     }
     
-    public List<TeacherResponseDTO> GetAllTeachers()
+    public List<TeacherResponseDTO> GetAllTeachers(TeacherFilterModel filters)
     {
-        List<TeacherResponseDTO> teachers = _context.Teachers.Select(x => new TeacherResponseDTO()
+        IQueryable<Teacher> teachers = _context.Teachers;
+
+        if (!string.IsNullOrEmpty(filters.Name))
+        {
+            teachers = teachers.Where(x => x.Name.Contains(filters.Name));
+        }
+
+        if (!string.IsNullOrEmpty(filters.Subject))
+        {
+            teachers = teachers.Where(x => x.Subject.Contains(filters.Subject));
+        }
+          
+        teachers = teachers.Skip((filters.Page - 1) * filters.PageSize).Take(filters.PageSize);
+
+        IQueryable<TeacherResponseDTO> query = teachers.Select(x => new TeacherResponseDTO()
         {
             Name = x.Name,
-            Subject = x.Subject
-        }).ToList();
+            Subject = x.Subject,
+        });
         
-        return teachers;
+        return query.ToList();
     }
 
     public TeacherResponseDTO? GetOneTeacher(int id)
