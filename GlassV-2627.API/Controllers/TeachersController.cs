@@ -1,8 +1,6 @@
-﻿using GlassV_2627.Data;
-using GlassV_2627.DTOs.StudentDTOs;
+﻿using GlassV_2627.DTOs.StudentDTOs;
 using GlassV_2627.DTOs.TeacherDTOs;
 using GlassV_2627.Filters;
-using GlassV_2627.Models;
 using GlassV_2627.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

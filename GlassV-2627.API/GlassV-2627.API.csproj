@@ -9,13 +9,18 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.10"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.12" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.14">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.12" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.14" />
         <PackageReference Include="Scalar.AspNetCore" Version="2.18.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ClassV-2627.DataAccess\ClassV-2627.DataAccess.csproj" />
+      <ProjectReference Include="..\ClassV-2627.Infrastructure\ClassV-2627.Infrastructure.csproj" />
+      <ProjectReference Include="..\ClassV-2627.Interfaces\ClassV-2627.Interfaces.csproj" />
     </ItemGroup>
 
 </Project>
