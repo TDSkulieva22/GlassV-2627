@@ -1,6 +1,5 @@
 ﻿using GlassV_2627.Models;
 using Microsoft.EntityFrameworkCore;
-
 namespace GlassV_2627.Data;
 
 public class ApplicationDbContext : DbContext
