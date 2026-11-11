@@ -17,17 +17,17 @@ public class StudentsController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult GetAll([FromBody] StudentFilterModel filters)
+    public async Task<IActionResult> GetAll([FromBody] StudentFilterModel filters)
     {
-        var result = _service.GetAll(filters);
+        var result = await _service.GetAll(filters);
         
         return Ok(result);
     }
 
     [HttpGet]
-    public IActionResult GetOne([FromQuery] int id)
+    public async Task<IActionResult> GetOne([FromQuery] int id)
     {
-        var result = _service.GetOne(id);
+        var result = await _service.GetOne(id);
 
         if (result == null)
         {
@@ -38,9 +38,9 @@ public class StudentsController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] StudentEditDTO newStudent)
+    public async Task<IActionResult> Create([FromBody] StudentEditDTO newStudent)
     {
-        var result = _service.Create(newStudent);
+        var result = await _service.Create(newStudent);
 
         if (result == null)
         {
@@ -51,9 +51,9 @@ public class StudentsController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult Update([FromBody] StudentEditDTO student)
+    public async Task<IActionResult> Update([FromBody] StudentEditDTO student)
     {
-        var result = _service.Update(student);
+        var result = await _service.Update(student);
 
         if (!result)
         {
@@ -64,9 +64,9 @@ public class StudentsController : ControllerBase
     }
 
     [HttpDelete]
-    public IActionResult Delete([FromQuery] int id)
+    public async Task<IActionResult> Delete([FromQuery] int id)
     {
-        var result = _service.Delete(id);
+        var result = await _service.Delete(id);
 
         if (!result)
         {
@@ -77,9 +77,9 @@ public class StudentsController : ControllerBase
     }
 
     [HttpPatch]
-    public IActionResult UpdateGrade([FromBody] StudentUpdateGradeDTO updateStudent)
+    public async Task<IActionResult> UpdateGrade([FromBody] StudentUpdateGradeDTO updateStudent)
     {
-        var result = _service.UpdateGrade(updateStudent);
+        var result = await _service.UpdateGrade(updateStudent);
 
         if (!result)
         {

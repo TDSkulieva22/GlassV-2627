@@ -3,6 +3,7 @@ using GlassV_2627.DTOs.TeacherDTOs;
 using GlassV_2627.Filters;
 using GlassV_2627.Models;
 using GlassV_2627.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace GlassV_2627.Services;
 
@@ -15,7 +16,7 @@ public class TeacherService : ITeacherService
         _context = context;
     }
     
-    public List<TeacherResponseDTO> GetAllTeachers(TeacherFilterModel filters)
+    public async Task<List<TeacherResponseDTO>> GetAllTeachers(TeacherFilterModel filters)
     {
         IQueryable<Teacher> teachers = _context.Teachers;
 
@@ -37,21 +38,21 @@ public class TeacherService : ITeacherService
             Subject = x.Subject,
         });
         
-        return query.ToList();
+        return await query.ToListAsync();
     }
 
-    public TeacherResponseDTO? GetOneTeacher(int id)
+    public async Task<TeacherResponseDTO?> GetOneTeacher(int id)
     {
-        TeacherResponseDTO? teacher = _context.Teachers.Where(x => x.Id == id).Select(x => new TeacherResponseDTO()
+        TeacherResponseDTO? teacher = await _context.Teachers.Where(x => x.Id == id).Select(x => new TeacherResponseDTO()
         {
             Name = x.Name,
             Subject = x.Subject
-        }).FirstOrDefault();
+        }).FirstOrDefaultAsync();
         
         return teacher;
     }
 
-    public int? Create(TeacherEditDTO teacher)
+    public async Task<int?> Create(TeacherEditDTO teacher)
     {
         Teacher entity = new Teacher();
         
@@ -61,7 +62,7 @@ public class TeacherService : ITeacherService
         try
         {
             _context.Teachers.Add(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
         catch (Exception e)
         {
@@ -71,9 +72,9 @@ public class TeacherService : ITeacherService
         return entity.Id;
     }
 
-    public bool Update(TeacherEditDTO teacher)
+    public async Task<bool> Update(TeacherEditDTO teacher)
     {
-        Teacher? entity = _context.Teachers.Where(x => x.Id == teacher.Id).FirstOrDefault();
+        Teacher? entity = await _context.Teachers.Where(x => x.Id == teacher.Id).FirstOrDefaultAsync();
 
         if (entity == null)
         {
@@ -83,13 +84,13 @@ public class TeacherService : ITeacherService
         entity.Name = teacher.Name;
         entity.Subject = teacher.Subject;
 
-        bool result = _context.SaveChanges() == 1;
+        bool result = await _context.SaveChangesAsync() == 1;
         return result;
     }
 
-    public bool Delete(int id)
+    public async Task<bool> Delete(int id)
     {
-        Teacher? teacher = _context.Teachers.Where(x => x.Id == id).FirstOrDefault();
+        Teacher? teacher = await _context.Teachers.Where(x => x.Id == id).FirstOrDefaultAsync();
 
         if (teacher == null)
         {
@@ -98,17 +99,17 @@ public class TeacherService : ITeacherService
         
         _context.Teachers.Remove(teacher);
         
-        bool result = _context.SaveChanges() == 1;
+        bool result = await _context.SaveChangesAsync() == 1;
         return result;
     }
 
-    public bool UpdateSubject(TeacherUpdateSubjectDTO updateTeacherSubject)
+    public async Task<bool> UpdateSubject(TeacherUpdateSubjectDTO updateTeacherSubject)
     {
-        Teacher entity = _context.Teachers.Where(x => x.Id == updateTeacherSubject.TeacherId).First();
+        Teacher entity = await _context.Teachers.Where(x => x.Id == updateTeacherSubject.TeacherId).FirstAsync();
         
         entity.Subject = updateTeacherSubject.NewSubject;
         
-        bool result = _context.SaveChanges() == 1;
+        bool result = await _context.SaveChangesAsync() == 1;
         return result;
     }
 }

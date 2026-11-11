@@ -5,10 +5,10 @@ namespace GlassV_2627.Services.Interfaces;
 
 public interface IStudentService
 {
-    public List<StudentResponseDTO> GetAll(StudentFilterModel filters);
-    public StudentResponseDTO? GetOne(int id);
-    public int? Create(StudentEditDTO student);
-    public bool Update(StudentEditDTO student);
-    public bool Delete(int id);
-    public bool UpdateGrade(StudentUpdateGradeDTO student);
+    public Task<List<StudentResponseDTO>> GetAll(StudentFilterModel filters);
+    public Task<StudentResponseDTO?> GetOne(int id);
+    public Task<int?> Create(StudentEditDTO student);
+    public Task<bool> Update(StudentEditDTO student);
+    public Task<bool> Delete(int id);
+    public Task<bool> UpdateGrade(StudentUpdateGradeDTO student);
 }

@@ -5,10 +5,10 @@ namespace GlassV_2627.Services.Interfaces;
 
 public interface ITeacherService
 {
-    public List<TeacherResponseDTO> GetAllTeachers(TeacherFilterModel filters);
-    public TeacherResponseDTO? GetOneTeacher(int id);
-    public int? Create(TeacherEditDTO teacher);
-    public bool Update(TeacherEditDTO teacher);
-    public bool Delete(int id);
-    public bool UpdateSubject(TeacherUpdateSubjectDTO updateTeacherSubject);
+    public Task<List<TeacherResponseDTO>> GetAllTeachers(TeacherFilterModel filters);
+    public Task<TeacherResponseDTO?> GetOneTeacher(int id);
+    public Task<int?> Create(TeacherEditDTO teacher);
+    public Task<bool> Update(TeacherEditDTO teacher);
+    public Task<bool> Delete(int id);
+    public Task<bool> UpdateSubject(TeacherUpdateSubjectDTO updateTeacherSubject);
 }

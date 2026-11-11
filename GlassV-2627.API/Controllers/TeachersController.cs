@@ -18,16 +18,16 @@ public class TeachersController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult GetAllTeachers([FromBody] TeacherFilterModel filters)
+    public async Task<IActionResult> GetAllTeachers([FromBody] TeacherFilterModel filters)
     {
-        var teachers = _service.GetAllTeachers(filters);
+        var teachers = await _service.GetAllTeachers(filters);
         return Ok(teachers);
     }
 
     [HttpGet]
-    public IActionResult GetOneTeacher([FromQuery] int id)
+    public async Task<IActionResult> GetOneTeacher([FromQuery] int id)
     {
-        var teacher = _service.GetOneTeacher(id);
+        var teacher = await _service.GetOneTeacher(id);
 
         if (teacher == null)
         {
@@ -38,9 +38,9 @@ public class TeachersController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] TeacherEditDTO teacher)
+    public async Task<IActionResult> Create([FromBody] TeacherEditDTO teacher)
     {
-        var entity = _service.Create(teacher);
+        var entity = await _service.Create(teacher);
 
         if (entity == null)
         {
@@ -51,9 +51,9 @@ public class TeachersController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult Update([FromBody] TeacherEditDTO teacher)
+    public async Task<IActionResult> Update([FromBody] TeacherEditDTO teacher)
     {
-        var entity = _service.Update(teacher);
+        var entity = await _service.Update(teacher);
         
         if (!entity)
         {
@@ -64,9 +64,9 @@ public class TeachersController : ControllerBase
     }
 
     [HttpDelete]
-    public IActionResult Delete([FromQuery] int id)
+    public async Task<IActionResult> Delete([FromQuery] int id)
     {
-       var entity = _service.Delete(id);
+       var entity = await _service.Delete(id);
 
        if (!entity)
        {
@@ -77,9 +77,9 @@ public class TeachersController : ControllerBase
     }
 
     [HttpPatch]
-    public IActionResult UpdateSubject([FromBody] TeacherUpdateSubjectDTO teacher)
+    public async Task<IActionResult> UpdateSubject([FromBody] TeacherUpdateSubjectDTO teacher)
     {
-        var entity = _service.UpdateSubject(teacher);
+        var entity = await _service.UpdateSubject(teacher);
         
         if (!entity)
         {
